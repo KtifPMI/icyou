@@ -204,6 +204,60 @@
             font-weight: 300;
         }
 
+        /* Mobile Menu Button */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 102;
+        }
+        .menu-toggle span {
+            width: 24px;
+            height: 2px;
+            background: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--bg);
+            z-index: 101;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: var(--space-2xl);
+        }
+        .mobile-nav.active {
+            display: flex;
+        }
+        .mobile-nav a {
+            font-size: 24px;
+            font-weight: 500;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .mobile-nav a:hover {
+            color: var(--accent);
+        }
+
         /* Navigation */
         nav {
             position: fixed;
@@ -958,31 +1012,97 @@
             .nav-links {
                 display: none;
             }
+            .menu-toggle {
+                display: flex;
+            }
             .cursor, .cursor-follower {
                 display: none;
             }
             body {
                 cursor: auto;
             }
+            .hero {
+                grid-template-columns: 1fr;
+                min-height: auto;
+                padding-top: 100px;
+            }
+            .hero-content {
+                padding: var(--space-xl);
+                order: 2;
+            }
+            .hero-image {
+                height: 300px;
+                order: 1;
+            }
             .hero-title {
-                font-size: 36px;
+                font-size: 32px;
+            }
+            .hero-title .japanese {
+                font-size: 24px;
+            }
+            .hero-desc {
+                font-size: 16px;
             }
             .grid {
                 grid-template-columns: 1fr;
+                gap: var(--space-md);
+            }
+            .section {
+                padding: var(--space-2xl) var(--space-lg);
+            }
+            .section-title {
+                font-size: 28px;
             }
             .lookbook-grid {
                 grid-template-columns: 1fr;
+            }
+            .about {
+                grid-template-columns: 1fr;
+            }
+            .about-image {
+                min-height: 250px;
+            }
+            .about-content {
+                padding: var(--space-xl);
+            }
+            .about-title {
+                font-size: 28px;
+            }
+            .values {
+                flex-direction: column;
+                gap: var(--space-lg);
             }
             .newsletter-form {
                 flex-direction: column;
             }
             footer {
                 flex-direction: column;
-                gap: var(--space-xl);
+                gap: var(--space-lg);
+                padding: var(--space-xl) var(--space-lg);
             }
             .footer-links {
                 flex-wrap: wrap;
-                gap: var(--space-xl);
+                gap: var(--space-lg);
+            }
+            .bg-char {
+                font-size: 150px !important;
+            }
+            .product-modal .modal-content {
+                grid-template-columns: 1fr;
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+            .modal-image {
+                height: 200px;
+            }
+            .modal-details {
+                padding: var(--space-lg);
+            }
+            .modal-name {
+                font-size: 24px;
+            }
+            .modal-price {
+                font-size: 20px;
             }
         }
 
@@ -1286,14 +1406,27 @@
     <div class="scroll-progress"></div>
 
     <nav>
-        <div class="logo">ICYOU</div>
+        <a href="index.html" class="logo">ICYOU</a>
         <ul class="nav-links">
             <li><a href="#shop">Магазин</a></li>
             <li><a href="#lookbook">Лукбук</a></li>
             <li><a href="#about">О нас</a></li>
             <li><a href="#contact">Контакты</a></li>
         </ul>
+        <div class="menu-toggle" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </nav>
+
+    <div class="mobile-nav" id="mobileNav">
+        <a href="index.html">Главная</a>
+        <a href="catalog.html">Каталог</a>
+        <a href="sizes.html">Размеры</a>
+        <a href="about.html">О нас</a>
+        <a href="contacts.html">Контакты</a>
+    </div>
 
     <section class="hero">
         <div class="hero-bg-shapes">
@@ -1756,6 +1889,26 @@
         function closeModal() {
             modal.classList.remove('active');
             document.body.style.overflow = '';
+        }
+
+        // Mobile Menu
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileNav = document.getElementById('mobileNav');
+        
+        if (menuToggle && mobileNav) {
+            menuToggle.addEventListener('click', () => {
+                menuToggle.classList.toggle('active');
+                mobileNav.classList.toggle('active');
+                document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+            });
+
+            mobileNav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    menuToggle.classList.remove('active');
+                    mobileNav.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            });
         }
     </script>
 </body>
