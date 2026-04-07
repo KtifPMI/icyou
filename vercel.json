@@ -1,6 +1,3 @@
 {
-  "outputDirectory": "docs",
-  "build": {
-    "command": "echo 'Build complete'"
-  }
+  "outputDirectory": "www"
 }
