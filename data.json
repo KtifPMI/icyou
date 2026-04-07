@@ -2,22 +2,37 @@
   "products": [
     {
       "id": 1,
-      "name": "Oversized Tee",
-      "price": 6500,
-      "image": "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&q=80",
-      "description": "Свободный хлопковый оверсайз-тени с округлым вырезом и удлинёнными рукавами.",
-      "sizes": ["XS", "S", "M", "L", "XL"],
-      "colors": ["Белый", "Чёрный", "Серый"],
-      "category": "new"
+      "name": "Бабай",
+      "price": 700,
+      "image": "https://www.sostav.ru/images/news/2023/04/05/7qozustw.png",
+      "description": "Свободный хлопковый оверсайз-тени с округлым вырезом.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L"
+      ],
+      "colors": [
+        "Белый"
+      ],
+      "category": "catalog"
     },
     {
       "id": 2,
       "name": "Wide Leg Trousers",
       "price": 12000,
       "image": "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&q=80",
-      "description": "Широкие брюки свободного кроя с высокой посадкой.",
-      "sizes": ["XS", "S", "M", "L"],
-      "colors": ["Бежевый", "Чёрный"],
+      "description": "Широкие брюки свободного кроя.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L"
+      ],
+      "colors": [
+        "Бежевый",
+        "Чёрный"
+      ],
       "category": "new"
     },
     {
@@ -25,9 +40,18 @@
       "name": "Flowy Shirt",
       "price": 8500,
       "image": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600&q=80",
-      "description": "Лёгкая струящаяся рубашка с V-образным вырезом.",
-      "sizes": ["XS", "S", "M", "L", "XL"],
-      "colors": ["Белый", "Голубой"],
+      "description": "Лёгкая струящаяся рубашка.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "colors": [
+        "Белый",
+        "Голубой"
+      ],
       "category": "new"
     },
     {
@@ -35,9 +59,17 @@
       "name": "Oversized Jacket",
       "price": 18500,
       "image": "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&q=80",
-      "description": "Удлинённая куртка оверсайз из плотного хлопка.",
-      "sizes": ["S", "M", "L", "XL"],
-      "colors": ["Чёрный", "Хаки"],
+      "description": "Удлинённая куртка оверсайз.",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "colors": [
+        "Чёрный",
+        "Хаки"
+      ],
       "category": "catalog"
     }
   ],
