@@ -17,6 +17,7 @@ export default function Home() {
   const [newProduct, setNewProduct] = useState({ name: '', price: '', image: '', description: '', sizes: '', colors: '', category: 'new' });
   const [newLookbook, setNewLookbook] = useState({ image: '', caption: '' });
   const [toast, setToast] = useState('');
+  const [logoClicks, setLogoClicks] = useState(0);
 
   useEffect(() => { fetchData(); }, []);
 
@@ -211,7 +212,26 @@ export default function Home() {
         </div>
       )}
 
-      <div onClick={() => setShowLogin(true)} style={{ position: 'fixed', bottom: '10px', right: '10px', width: '30px', height: '30px', opacity: 0, cursor: 'pointer' }}></div>
+      <footer style={{ background: '#1a1a1a', color: '#FAFAFA', padding: '64px 48px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', maxWidth: '1200px', margin: '0 auto' }}>
+          <div>
+            <div onClick={() => { const c = logoClicks + 1; setLogoClicks(c); if (c >= 5) setShowLogin(true); }} style={{ fontSize: '18px', fontWeight: 600, letterSpacing: '0.2em', marginBottom: '16px', cursor: 'pointer' }}>ICYOU</div>
+            <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.6)' }}>自由 Свобода в каждой нити</p>
+          </div>
+          <div style={{ display: 'flex', gap: '64px' }}>
+            <div>
+              <h4 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '16px' }}>Магазин</h4>
+              <a href="#" style={{ display: 'block', fontSize: '14px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px', textDecoration: 'none' }}>Каталог</a>
+              <a href="#" style={{ display: 'block', fontSize: '14px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px', textDecoration: 'none' }}>Размеры</a>
+            </div>
+            <div>
+              <h4 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '16px' }}>О нас</h4>
+              <a href="#" style={{ display: 'block', fontSize: '14px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px', textDecoration: 'none' }}>Бренд</a>
+              <a href="#" style={{ display: 'block', fontSize: '14px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px', textDecoration: 'none' }}>Контакты</a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
