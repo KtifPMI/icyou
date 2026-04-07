@@ -7,6 +7,8 @@ on:
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -19,16 +21,23 @@ jobs:
         run: npm install
 
       - name: Build
+        run: npm run build
+
+      - name: Create output directory
         run: |
-          npm run build
-          mkdir -p standalone
-          cp -r .next/standalone/* standalone/ 2>/dev/null || true
-          cp -r .next/public standalone/public 2>/dev/null || true
-          cp -r .next/static standalone/_next/static 2>/dev/null || true
+          mkdir -p .next/standalone/public
+          cp -r .next/standalone/server.js .next/standalone/ 2>/dev/null || true
+          cp -r .next/standalone/package.json .next/standalone/ 2>/dev/null || true
+          cp -r .next/public/* .next/standalone/public/ 2>/dev/null || true
 
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./standalone
-          force_orphan: true
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b gh-pages
+          cp -r .next/standalone/* .
+          rm -rf node_modules .next
+          git add -A
+          git commit -m "Deploy to GitHub Pages" || true
+          git push -f origin gh-pages
+          git checkout main
