@@ -5,32 +5,35 @@ on:
     branches: [main]
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      
-      - name: Setup Node.js
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
-      
+          node-version: 20
+          force: true
+
       - name: Install dependencies
-        run: npm install --no-package-lock
-      
-      - name: Build Next.js
-        run: npm run build
-      
-      - name: Copy standalone files
         run: |
-          cp -r .next/standalone .next/public .next/static standalone/ 2>/dev/null || true
-          mkdir -p standalone/public
-          cp -r .next/public/* standalone/public/ 2>/dev/null || true
-      
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v4
+          npm install
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: false
+
+      - name: Build
+        run: npm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./standalone
-          force_orphan: true
+          path: .next/static
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
