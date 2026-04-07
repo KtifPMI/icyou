@@ -1,11 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
+  basePath: '',
+  trailingSlash: true,
   images: {
-    remotePatterns: [
-      { hostname: 'images.unsplash.com' },
-      { hostname: 'supabase.co' }
-    ]
+    unoptimized: true
   }
 }
 

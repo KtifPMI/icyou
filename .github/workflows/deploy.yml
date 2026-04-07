@@ -10,9 +10,27 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build Next.js
+        run: npm run build
+      
+      - name: Copy standalone files
+        run: |
+          cp -r .next/standalone .next/public .next/static standalone/ 2>/dev/null || true
+          mkdir -p standalone/public
+          cp -r .next/public/* standalone/public/ 2>/dev/null || true
+      
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
+          publish_dir: ./standalone
           force_orphan: true
