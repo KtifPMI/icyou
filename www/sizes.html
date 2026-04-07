@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Размеры — ICYOU</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+JP:wght@300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #FAFAFA;
+            --surface: #F5F3EF;
+            --text-primary: #1A1A1A;
+            --text-secondary: #6B6B6B;
+            --accent: #A8B5A0;
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            --space-2xl: 48px;
+            --space-3xl: 64px;
+            --space-4xl: 96px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+            cursor: none;
+        }
+
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--text-primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99999;
+            transition: transform 0.1s ease, opacity 0.3s ease;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-follower {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: var(--text-primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99999;
+            transition: transform 0.15s ease-out;
+            mix-blend-mode: difference;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: var(--space-lg) var(--space-2xl);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 101;
+            background: rgba(250, 250, 250, 0.95);
+            backdrop-filter: blur(20px);
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-xl);
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-weight: 400;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background: var(--text-primary);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .page-header {
+            padding: 140px var(--space-2xl) var(--space-3xl);
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 48px;
+            font-weight: 600;
+            margin-bottom: var(--space-md);
+        }
+
+        .page-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .size-section {
+            padding: var(--space-2xl);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .size-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--surface);
+            margin-bottom: var(--space-xl);
+        }
+
+        .size-table th, .size-table td {
+            padding: 16px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .size-table th {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            background: var(--text-primary);
+            color: var(--bg);
+        }
+
+        .size-table td {
+            font-size: 14px;
+        }
+
+        .size-table tr:hover td {
+            background: rgba(168, 181, 160, 0.1);
+        }
+
+        .size-category {
+            margin-bottom: var(--space-3xl);
+        }
+
+        .size-category h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: var(--space-lg);
+            padding-bottom: var(--space-sm);
+            border-bottom: 2px solid var(--accent);
+            display: inline-block;
+        }
+
+        .measure-guide {
+            background: var(--surface);
+            padding: var(--space-2xl);
+            margin: var(--space-2xl);
+            border-radius: 8px;
+        }
+
+        .measure-guide h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: var(--space-lg);
+        }
+
+        .measure-item {
+            display: flex;
+            gap: var(--space-lg);
+            margin-bottom: var(--space-lg);
+            align-items: flex-start;
+        }
+
+        .measure-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .measure-text h4 {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: var(--space-xs);
+        }
+
+        .measure-text p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .note {
+            text-align: center;
+            padding: var(--space-2xl);
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .note a {
+            color: var(--accent);
+        }
+
+        footer {
+            padding: var(--space-3xl) var(--space-2xl);
+            background: var(--text-primary);
+            color: var(--bg);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .footer-brand h3 {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            margin-bottom: var(--space-md);
+        }
+
+        .footer-brand p {
+            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: var(--space-3xl);
+        }
+
+        .footer-col h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: var(--space-md);
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col li {
+            margin-bottom: var(--space-sm);
+        }
+
+        .footer-col a {
+            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+        }
+
+        .footer-col a:hover {
+            color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .cursor, .cursor-follower { display: none; }
+            body { cursor: auto; }
+            .page-title { font-size: 32px; }
+            .size-table { font-size: 12px; }
+            .size-table th, .size-table td { padding: 10px 8px; }
+            footer { flex-direction: column; gap: var(--space-xl); }
+            .footer-links { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <nav>
+        <a href="index.html" class="logo">ICYOU</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="catalog.html">Каталог</a></li>
+            <li><a href="sizes.html">Размеры</a></li>
+            <li><a href="about.html">О нас</a></li>
+            <li><a href="contacts.html">Контакты</a></li>
+        </ul>
+    </nav>
+
+    <header class="page-header">
+        <h1 class="page-title">Таблица размеров</h1>
+        <p class="page-subtitle">自由 Найди свой идеальный размер. Измерения в сантиметрах.</p>
+    </header>
+
+    <main>
+        <section class="size-section">
+            <div class="size-category">
+                <h2>Верхняя одежда</h2>
+                <table class="size-table">
+                    <thead>
+                        <tr>
+                            <th>Размер</th>
+                            <th>Обхват груди</th>
+                            <th>Обхват талии</th>
+                            <th>Длина рукава</th>
+                            <th>Длина изделия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>XS</td>
+                            <td>86-90</td>
+                            <td>68-72</td>
+                            <td>58</td>
+                            <td>66</td>
+                        </tr>
+                        <tr>
+                            <td>S</td>
+                            <td>90-94</td>
+                            <td>72-76</td>
+                            <td>60</td>
+                            <td>68</td>
+                        </tr>
+                        <tr>
+                            <td>M</td>
+                            <td>94-98</td>
+                            <td>76-80</td>
+                            <td>62</td>
+                            <td>70</td>
+                        </tr>
+                        <tr>
+                            <td>L</td>
+                            <td>98-104</td>
+                            <td>80-86</td>
+                            <td>64</td>
+                            <td>72</td>
+                        </tr>
+                        <tr>
+                            <td>XL</td>
+                            <td>104-110</td>
+                            <td>86-92</td>
+                            <td>66</td>
+                            <td>74</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="size-category">
+                <h2>Брюки</h2>
+                <table class="size-table">
+                    <thead>
+                        <tr>
+                            <th>Размер</th>
+                            <th>Обхват талии</th>
+                            <th>Обхват бёдер</th>
+                            <th>Длина по внутреннему шву</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>XS</td>
+                            <td>64-68</td>
+                            <td>88-92</td>
+                            <td>78</td>
+                        </tr>
+                        <tr>
+                            <td>S</td>
+                            <td>68-72</td>
+                            <td>92-96</td>
+                            <td>80</td>
+                        </tr>
+                        <tr>
+                            <td>M</td>
+                            <td>72-76</td>
+                            <td>96-100</td>
+                            <td>82</td>
+                        </tr>
+                        <tr>
+                            <td>L</td>
+                            <td>76-82</td>
+                            <td>100-106</td>
+                            <td>84</td>
+                        </tr>
+                        <tr>
+                            <td>XL</td>
+                            <td>82-88</td>
+                            <td>106-112</td>
+                            <td>86</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="size-category">
+                <h2>Рубашки и футболки</h2>
+                <table class="size-table">
+                    <thead>
+                        <tr>
+                            <th>Размер</th>
+                            <th>Обхват груди</th>
+                            <th>Длина рукава</th>
+                            <th>Длина изделия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>XS</td>
+                            <td>84-88</td>
+                            <td>56</td>
+                            <td>68</td>
+                        </tr>
+                        <tr>
+                            <td>S</td>
+                            <td>88-92</td>
+                            <td>58</td>
+                            <td>70</td>
+                        </tr>
+                        <tr>
+                            <td>M</td>
+                            <td>92-96</td>
+                            <td>60</td>
+                            <td>72</td>
+                        </tr>
+                        <tr>
+                            <td>L</td>
+                            <td>96-102</td>
+                            <td>62</td>
+                            <td>74</td>
+                        </tr>
+                        <tr>
+                            <td>XL</td>
+                            <td>102-108</td>
+                            <td>64</td>
+                            <td>76</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <div class="measure-guide">
+            <h3>Как снять мерки</h3>
+            <div class="measure-item">
+                <div class="measure-icon">1</div>
+                <div class="measure-text">
+                    <h4>Обхват груди</h4>
+                    <p>Измеряется по самой широкой части груди, лента должна проходить под подмышками.</p>
+                </div>
+            </div>
+            <div class="measure-item">
+                <div class="measure-icon">2</div>
+                <div class="measure-text">
+                    <h4>Обхват талии</h4>
+                    <p>Измеряется по самой узкой части талии, не затягивая слишком сильно.</p>
+                </div>
+            </div>
+            <div class="measure-item">
+                <div class="measure-icon">3</div>
+                <div class="measure-text">
+                    <h4>Обхват бёдер</h4>
+                    <p>Измеряется по самой широкой части бёдер, обычно на уровне середины ягодиц.</p>
+                </div>
+            </div>
+            <div class="measure-item">
+                <div class="measure-icon">4</div>
+                <div class="measure-text">
+                    <h4>Длина рукава</h4>
+                    <p>Измеряется от плечевого сустава до запястья, слегка согнув руку.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="note">
+            <p>Остались вопросы? Напишите нам — <a href="contacts.html">поможем подобрать размер</a></p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-brand">
+            <h3>ICYOU</h3>
+            <p>自由 Свобода в каждой нити</p>
+        </div>
+        <div class="footer-links">
+            <div class="footer-col">
+                <h4>Магазин</h4>
+                <ul>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="catalog.html">Каталог</a></li>
+                    <li><a href="sizes.html">Размеры</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>О нас</h4>
+                <ul>
+                    <li><a href="about.html">Бренд</a></li>
+                    <li><a href="sustainability.html">Устойчивость</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Помощь</h4>
+                <ul>
+                    <li><a href="contacts.html">Контакты</a></li>
+                    <li><a href="delivery.html">Доставка</a></li>
+                    <li><a href="returns.html">Возвраты</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const cursor = document.querySelector('.cursor');
+        const follower = document.querySelector('.cursor-follower');
+        let cursorX = 0, cursorY = 0;
+        let followerX = 0, followerY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            cursorX = e.clientX;
+            cursorY = e.clientY;
+            cursor.style.left = cursorX - 10 + 'px';
+            cursor.style.top = cursorY - 10 + 'px';
+            
+            const darkSections = document.querySelectorAll('footer');
+            let inDarkSection = false;
+            darkSections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (cursorY >= rect.top && cursorY <= rect.bottom) inDarkSection = true;
+            });
+            
+            if (inDarkSection) {
+                cursor.style.borderColor = '#ffffff';
+                cursor.style.mixBlendMode = 'difference';
+                follower.style.background = '#ffffff';
+                follower.style.mixBlendMode = 'difference';
+            } else {
+                cursor.style.borderColor = '#1A1A1A';
+                cursor.style.mixBlendMode = 'difference';
+                follower.style.background = '#1A1A1A';
+                follower.style.mixBlendMode = 'difference';
+            }
+        });
+
+        function animateFollower() {
+            followerX += (cursorX - followerX) * 0.1;
+            followerY += (cursorY - followerY) * 0.1;
+            follower.style.left = followerX - 4 + 'px';
+            follower.style.top = followerY - 4 + 'px';
+            requestAnimationFrame(animateFollower);
+        }
+        animateFollower();
+
+        const hoverElements = document.querySelectorAll('a, button');
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+    </script>
+</body>
+</html>

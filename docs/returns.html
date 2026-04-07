@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Возвраты — ICYOU</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+JP:wght@300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #FAFAFA;
+            --surface: #F5F3EF;
+            --text-primary: #1A1A1A;
+            --text-secondary: #6B6B6B;
+            --accent: #A8B5A0;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            --space-2xl: 48px;
+            --space-3xl: 64px;
+            --space-4xl: 96px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text-primary); line-height: 1.6; font-size: 16px; cursor: none; }
+        .cursor, .cursor-follower { position: fixed; pointer-events: none; z-index: 99999; mix-blend-mode: difference; }
+        .cursor { width: 20px; height: 20px; border: 1px solid var(--text-primary); border-radius: 50%; }
+        .cursor-follower { width: 8px; height: 8px; background: var(--text-primary); border-radius: 50%; }
+        nav { position: fixed; top: 0; left: 0; right: 0; padding: var(--space-lg) var(--space-2xl); display: flex; justify-content: space-between; align-items: center; z-index: 101; background: rgba(250, 250, 250, 0.95); backdrop-filter: blur(20px); }
+        .logo { font-size: 18px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; color: var(--text-primary); }
+        .nav-links { display: flex; gap: var(--space-xl); list-style: none; }
+        .nav-links a { text-decoration: none; color: var(--text-primary); font-size: 14px; position: relative; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 50%; width: 0; height: 1px; background: var(--text-primary); transform: translateX(-50%); transition: all 0.3s ease; }
+        .nav-links a:hover::after { width: 100%; }
+        .page-header { padding: 140px var(--space-2xl) var(--space-3xl); text-align: center; }
+        .page-title { font-size: 48px; font-weight: 600; margin-bottom: var(--space-md); }
+        .page-subtitle { font-size: 18px; color: var(--text-secondary); }
+        .content { max-width: 800px; margin: 0 auto; padding: 0 var(--space-2xl) var(--space-4xl); }
+        .return-steps { background: var(--surface); padding: var(--space-2xl); border-radius: 8px; margin-bottom: var(--space-xl); }
+        .return-steps h3 { font-size: 20px; font-weight: 600; margin-bottom: var(--space-lg); }
+        .step { display: flex; gap: var(--space-lg); margin-bottom: var(--space-lg); align-items: flex-start; }
+        .step-num { width: 30px; height: 30px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0; }
+        .step-text h4 { font-size: 16px; font-weight: 500; margin-bottom: var(--space-xs); }
+        .step-text p { font-size: 14px; color: var(--text-secondary); }
+        .info-box { background: var(--surface); padding: var(--space-2xl); border-radius: 8px; margin-top: var(--space-2xl); }
+        .info-box h3 { font-size: 18px; font-weight: 600; margin-bottom: var(--space-md); }
+        .info-box ul { list-style: none; }
+        .info-box li { padding: var(--space-sm) 0; color: var(--text-secondary); border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .info-box li:last-child { border-bottom: none; }
+        .refund-info { margin-top: var(--space-xl); }
+        .refund-info h3 { font-size: 18px; font-weight: 600; margin-bottom: var(--space-md); }
+        footer { padding: var(--space-3xl) var(--space-2xl); background: var(--text-primary); color: var(--bg); display: flex; justify-content: space-between; align-items: flex-start; }
+        .footer-brand h3 { font-size: 18px; font-weight: 600; letter-spacing: 0.2em; margin-bottom: var(--space-md); }
+        .footer-brand p { font-size: 14px; color: rgba(255,255,255,0.6); }
+        .footer-links { display: flex; gap: var(--space-3xl); }
+        .footer-col h4 { font-size: 14px; font-weight: 600; margin-bottom: var(--space-md); }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: var(--space-sm); }
+        .footer-col a { font-size: 14px; color: rgba(255,255,255,0.6); text-decoration: none; }
+        .footer-col a:hover { color: var(--accent); }
+        @media (max-width: 768px) { .nav-links { display: none; } .cursor, .cursor-follower { display: none; } body { cursor: auto; } footer { flex-direction: column; gap: var(--space-xl); } }
+    </style>
+</head>
+<body>
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <nav>
+        <a href="index.html" class="logo">ICYOU</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="catalog.html">Каталог</a></li>
+            <li><a href="sizes.html">Размеры</a></li>
+            <li><a href="about.html">О нас</a></li>
+            <li><a href="contacts.html">Контакты</a></li>
+        </ul>
+    </nav>
+
+    <header class="page-header">
+        <h1 class="page-title">Возвраты</h1>
+        <p class="page-subtitle">自由 Простой и удобный возврат</p>
+    </header>
+
+    <div class="content">
+        <div class="return-steps">
+            <h3>Как оформить возврат</h3>
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-text">
+                    <h4>Напишите нам</h4>
+                    <p>Свяжитесь через Telegram @icyou или email hello@icyou.com с указанием номера заказа</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-text">
+                    <h4>Дождитесь подтверждения</h4>
+                    <p>Мы подтвердим возврат и согласуем способ возврата в течение 24 часов</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-text">
+                    <h4>Отправьте товар</h4>
+                    <p>Отправьте товар удобным способом (СДЭК, Почта России или самовывоз)</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-text">
+                    <h4>Получите деньги</h4>
+                    <p>Деньги возвращаются на карту в течение 5-10 рабочих дней после получения товара</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h3>Условия возврата</h3>
+            <ul>
+                <li>✅ Товар можно вернуть в течение 14 дней</li>
+                <li>✅ Товар должен быть с этикетками и в оригинальной упаковке</li>
+                <li>✅ Товар не должен быть в употреблении</li>
+                <li>✅ Возврат бесплатный при сумме заказа от 15 000 ₽</li>
+                <li>⚠️ Обработка возврата — 5-10 рабочих дней</li>
+            </ul>
+        </div>
+
+        <div class="refund-info">
+            <h3>Что нельзя вернуть</h3>
+            <p style="color: var(--text-secondary); margin-bottom: var(--space-md);">По закону РФ не подлежат возврату:</p>
+            <ul style="color: var(--text-secondary);">
+                <li>• Товары для личной гигиены</li>
+                <li>• Бельё и чулочно-носочные изделия</li>
+            </ul>
+        </div>
+
+        <div class="info-box" style="margin-top: var(--space-xl);">
+            <h3>Остались вопросы?</h3>
+            <p style="color: var(--text-secondary);">Напишите нам — поможем: <a href="contacts.html" style="color: var(--text-primary);">Контакты</a></p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-brand">
+            <h3>ICYOU</h3>
+            <p>自由 Свобода в каждой нити</p>
+        </div>
+        <div class="footer-links">
+            <div class="footer-col">
+                <h4>Магазин</h4>
+                <ul>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="catalog.html">Каталог</a></li>
+                    <li><a href="sizes.html">Размеры</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>О нас</h4>
+                <ul>
+                    <li><a href="about.html">Бренд</a></li>
+                    <li><a href="sustainability.html">Устойчивость</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Помощь</h4>
+                <ul>
+                    <li><a href="contacts.html">Контакты</a></li>
+                    <li><a href="delivery.html">Доставка</a></li>
+                    <li><a href="returns.html">Возвраты</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const cursor = document.querySelector('.cursor');
+        const follower = document.querySelector('.cursor-follower');
+        let cursorX = 0, cursorY = 0, followerX = 0, followerY = 0;
+        document.addEventListener('mousemove', (e) => {
+            cursorX = e.clientX; cursorY = e.clientY;
+            cursor.style.left = cursorX - 10 + 'px';
+            cursor.style.top = cursorY - 10 + 'px';
+            
+            const darkSections = document.querySelectorAll('footer');
+            let inDarkSection = false;
+            darkSections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (cursorY >= rect.top && cursorY <= rect.bottom) inDarkSection = true;
+            });
+            
+            if (inDarkSection) {
+                cursor.style.borderColor = '#ffffff';
+                cursor.style.mixBlendMode = 'difference';
+                follower.style.background = '#ffffff';
+                follower.style.mixBlendMode = 'difference';
+            } else {
+                cursor.style.borderColor = '#1A1A1A';
+                cursor.style.mixBlendMode = 'difference';
+                follower.style.background = '#1A1A1A';
+                follower.style.mixBlendMode = 'difference';
+            }
+        });
+        function animateFollower() {
+            followerX += (cursorX - followerX) * 0.1;
+            followerY += (cursorY - followerY) * 0.1;
+            follower.style.left = followerX - 4 + 'px';
+            follower.style.top = followerY - 4 + 'px';
+            requestAnimationFrame(animateFollower);
+        }
+        animateFollower();
+    </script>
+</body>
+</html>
