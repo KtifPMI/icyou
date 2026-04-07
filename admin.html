@@ -141,10 +141,11 @@
                 <input type="number" id="productPrice">
             </div>
             <div class="form-group">
-                <label>URL изображения</label>
-                <input type="text" id="productImage" placeholder="https://..." onchange="previewImage(this, 'productPreview')">
+                <label>Изображение</label>
+                <input type="file" id="productImageFile" accept="image/*" onchange="handleImageUpload(this, 'productImage', 'productPreview')">
+                <input type="text" id="productImage" placeholder="Или вставь URL" onchange="previewImage(this, 'productPreview')">
                 <img id="productPreview" class="preview-img" style="display:none;">
-                <p class="upload-hint">Вставь URL изображения (с Unsplash, своего хостинга и т.д.)</p>
+                <p class="upload-hint">Загрузи файл или вставь URL</p>
             </div>
             <div class="form-group">
                 <label>Описание</label>
@@ -176,8 +177,9 @@
                 <button class="modal-close" onclick="closeModal('lookbookModal')">&times;</button>
             </div>
             <div class="form-group">
-                <label>URL изображения</label>
-                <input type="text" id="lookbookImage" placeholder="https://..." onchange="previewImage(this, 'lookbookPreview')">
+                <label>Изображение</label>
+                <input type="file" id="lookbookImageFile" accept="image/*" onchange="handleImageUpload(this, 'lookbookImage', 'lookbookPreview')">
+                <input type="text" id="lookbookImage" placeholder="Или вставь URL" onchange="previewImage(this, 'lookbookPreview')">
                 <img id="lookbookPreview" class="preview-img" style="display:none;">
             </div>
             <div class="form-group">
@@ -272,6 +274,18 @@
             document.getElementById('siteTitle').value = data.settings.siteTitle;
             document.getElementById('tagline').value = data.settings.tagline;
             document.getElementById('season').value = data.settings.season;
+        }
+
+        function handleImageUpload(input, textInputId, previewId) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById(textInputId).value = e.target.result;
+                    previewImage({value: e.target.result}, previewId);
+                };
+                reader.readAsDataURL(file);
+            }
         }
 
         function previewImage(input, previewId) {
