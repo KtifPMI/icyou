@@ -4,6 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Каталог — ICYOU</title>
+    <script>
+    let siteData = { products: [], lookbook: [], settings: {} };
+    async function loadData() {
+        try {
+            const resp = await fetch('../data.json');
+            if (resp.ok) siteData = await resp.json();
+        } catch(e) {}
+    }
+    function renderCatalog() {
+        const grid = document.getElementById('catalogGrid');
+        grid.innerHTML = siteData.products.map(p => `
+            <div class="product-card" data-category="${p.category || 'top'}" data-product='${JSON.stringify(p).replace(/'/g, "&#39;")}'>
+                <div class="product-image">
+                    <img src="${p.image}" alt="${p.name}">
+                </div>
+                <h3 class="product-name">${p.name}</h3>
+                <p class="product-price">${p.price.toLocaleString()} ₽</p>
+            </div>
+        `).join('');
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('click', () => openProductModal(JSON.parse(card.dataset.product)));
+        });
+    }
+    document.addEventListener('DOMContentLoaded', async () => {
+        await loadData();
+        renderCatalog();
+    });
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+JP:wght@300&display=swap" rel="stylesheet">
@@ -392,63 +420,8 @@
             <button class="category-btn" data-category="accessories">Аксессуары</button>
         </div>
 
-        <div class="grid">
-            <div class="product-card" data-category="top" data-product='{"name":"Oversized Tee","price":"6 500 ₽","image":"https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800&q=80","description":"Свободный хлопковый оверсайз-тени с округлым вырезом и удлинёнными рукавами.","sizes":["XS","S","M","L","XL"],"colors":["Белый","Чёрный","Серый"]}'>
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&q=80" alt="Oversized Tee">
-                </div>
-                <h3 class="product-name">Oversized Tee</h3>
-                <p class="product-price">6 500 ₽</p>
-            </div>
-            <div class="product-card" data-category="bottom" data-product='{"name":"Wide Leg Trousers","price":"12 000 ₽","image":"https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&q=80","description":"Широкие брюки свободного кроя с высокой посадкой.","sizes":["XS","S","M","L"],"colors":["Бежевый","Чёрный"]}'>
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&q=80" alt="Wide Leg Trousers">
-                </div>
-                <h3 class="product-name">Wide Leg Trousers</h3>
-                <p class="product-price">12 000 ₽</p>
-            </div>
-            <div class="product-card" data-category="top" data-product='{"name":"Flowy Shirt","price":"8 500 ₽","image":"https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=800&q=80","description":"Лёгкая струящаяся рубашка с V-образным вырезом.","sizes":["XS","S","M","L","XL"],"colors":["Белый","Голубой"]}'>
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600&q=80" alt="Flowy Shirt">
-                </div>
-                <h3 class="product-name">Flowy Shirt</h3>
-                <p class="product-price">8 500 ₽</p>
-            </div>
-            <div class="product-card" data-category="top" data-product='{"name":"Oversized Jacket","price":"18 500 ₽","image":"https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800&q=80","description":"Удлинённая куртка оверсайз из плотного хлопка.","sizes":["S","M","L","XL"],"colors":["Чёрный","Хаки"]}'>
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&q=80" alt="Oversized Jacket">
-                </div>
-                <h3 class="product-name">Oversized Jacket</h3>
-                <p class="product-price">18 500 ₽</p>
-            </div>
-            <div class="product-card" data-category="top" data-product='{"name":"Linen Shirt","price":"7 500 ₽","image":"https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=800&q=80","description":"Классическая рубашка из 100% льна.","sizes":["XS","S","M","L"],"colors":["Белый","Бежевый"]}'>
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=600&q=80" alt="Linen Shirt">
-                </div>
-                <h3 class="product-name">Linen Shirt</h3>
-                <p class="product-price">7 500 ₽</p>
-            </div>
-            <div class="product-card" data-category="bottom" data-product='{"name":"Pleated Pants","price":"11 000 ₽","image":"https://images.unsplash.com/photo-1475180098004-ca1d7e461768?w=800&q=80","description":"Брюки с выраженными складками и заужением к щиколотке.","sizes":["S","M","L"],"colors":["Чёрный","Тёмно-серый"]}'>
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1475180098004-ca1d7e461768?w=600&q=80" alt="Pleated Pants">
-                </div>
-                <h3 class="product-name">Pleated Pants</h3>
-                <p class="product-price">11 000 ₽</p>
-            </div>
-            <div class="product-card" data-category="top" data-product='{"name":"Cotton Hoodie","price":"9 500 ₽","image":"https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=800&q=80","description":"Хлопковый худи с капюшоном и кенгуру-карманом.","sizes":["XS","S","M","L","XL"],"colors":["Серый","Чёрный","Бежевый"]}'>
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&q=80" alt="Cotton Hoodie">
-                </div>
-                <h3 class="product-name">Cotton Hoodie</h3>
-                <p class="product-price">9 500 ₽</p>
-            </div>
-            <div class="product-card" data-category="dress" data-product='{"name":"Maxi Dress","price":"14 000 ₽","image":"https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80","description":"Макси-платье свободного силуэта с V-вырезом.","sizes":["XS","S","M","L"],"colors":["Белый","Принт"]}'>
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80" alt="Maxi Dress">
-                </div>
-                <h3 class="product-name">Maxi Dress</h3>
-                <p class="product-price">14 000 ₽</p>
-            </div>
+        <div class="grid" id="catalogGrid">
+            <!-- Товары загружаются из data.json -->
         </div>
     </main>
 
