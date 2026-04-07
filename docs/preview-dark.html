@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICYOU — Свобода в каждой нити</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+JP:wght@300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #121212;
+            --surface: #1E1E1E;
+            --text-primary: #F0F0F0;
+            --text-secondary: #9A9A9A;
+            --accent: #A8B5A0;
+            --accent-alt: #C9A99A;
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            --space-2xl: 48px;
+            --space-3xl: 64px;
+            --space-4xl: 96px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .japanese {
+            font-family: 'Noto Sans JP', sans-serif;
+            font-weight: 300;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: var(--space-lg) var(--space-2xl);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            transition: background 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: var(--bg);
+            box-shadow: 0 1px 0 rgba(255,255,255,0.05);
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-xl);
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-weight: 400;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background: var(--text-primary);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            padding-top: 80px;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: var(--space-4xl);
+        }
+
+        .hero-tagline {
+            font-size: 14px;
+            color: var(--text-secondary);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: var(--space-md);
+        }
+
+        .hero-title {
+            font-size: 64px;
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: var(--space-lg);
+        }
+
+        .hero-title .japanese {
+            display: block;
+            font-size: 32px;
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin-top: var(--space-sm);
+        }
+
+        .hero-desc {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 400px;
+            margin-bottom: var(--space-2xl);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: var(--text-primary);
+            color: var(--bg);
+            text-decoration: none;
+            font-size: 14px;
+            letter-spacing: 0.05em;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: var(--accent);
+        }
+
+        .hero-image {
+            position: relative;
+            background: var(--surface);
+            overflow: hidden;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.05);
+            transition: transform 8s ease;
+        }
+
+        .hero-image:hover img {
+            transform: scale(1);
+        }
+
+        .section {
+            padding: var(--space-4xl) var(--space-2xl);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: var(--space-3xl);
+        }
+
+        .section-title {
+            font-size: 36px;
+            font-weight: 600;
+        }
+
+        .section-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: var(--space-sm);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-lg);
+        }
+
+        .product-card {
+            cursor: pointer;
+        }
+
+        .product-image {
+            aspect-ratio: 3/4;
+            background: var(--surface);
+            overflow: hidden;
+            margin-bottom: var(--space-md);
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.02);
+        }
+
+        .product-name {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: var(--space-xs);
+        }
+
+        .product-price {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .lookbook {
+            background: var(--text-primary);
+            color: var(--bg);
+            padding: var(--space-4xl) var(--space-2xl);
+        }
+
+        .lookbook .section-title {
+            color: var(--bg);
+        }
+
+        .lookbook-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+        }
+
+        .lookbook-item {
+            aspect-ratio: 1;
+            background: var(--surface);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .lookbook-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+        }
+
+        .lookbook-caption {
+            position: absolute;
+            bottom: var(--space-lg);
+            left: var(--space-lg);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .about {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .about-image {
+            background: var(--surface);
+            min-height: 500px;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .about-content {
+            padding: var(--space-4xl);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .about-title {
+            font-size: 36px;
+            font-weight: 600;
+            margin-bottom: var(--space-lg);
+        }
+
+        .about-text {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: var(--space-xl);
+        }
+
+        .values {
+            display: flex;
+            gap: var(--space-2xl);
+        }
+
+        .value-item h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+        }
+
+        .value-item p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .newsletter {
+            background: var(--surface);
+            padding: var(--space-4xl) var(--space-2xl);
+            text-align: center;
+        }
+
+        .newsletter-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: var(--space-md);
+        }
+
+        .newsletter-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-xl);
+        }
+
+        .newsletter-form {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-md);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 16px;
+            border: 1px solid #333;
+            background: var(--bg);
+            color: var(--text-primary);
+            font-size: 14px;
+            outline: none;
+        }
+
+        .newsletter-input:focus {
+            border-color: var(--text-primary);
+        }
+
+        footer {
+            padding: var(--space-3xl) var(--space-2xl);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .footer-brand h3 {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            margin-bottom: var(--space-md);
+        }
+
+        .footer-brand p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: var(--space-3xl);
+        }
+
+        .footer-col h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: var(--space-md);
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col li {
+            margin-bottom: var(--space-sm);
+        }
+
+        .footer-col a {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .footer-col a:hover {
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 1024px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+            .hero-content {
+                padding: var(--space-2xl);
+                min-height: 70vh;
+            }
+            .hero-title {
+                font-size: 48px;
+            }
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .about {
+                grid-template-columns: 1fr;
+            }
+            .lookbook-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .nav-links {
+                display: none;
+            }
+            .hero-title {
+                font-size: 36px;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            .lookbook-grid {
+                grid-template-columns: 1fr;
+            }
+            .newsletter-form {
+                flex-direction: column;
+            }
+            footer {
+                flex-direction: column;
+                gap: var(--space-xl);
+            }
+            .footer-links {
+                flex-wrap: wrap;
+                gap: var(--space-xl);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">ICYOU</div>
+        <ul class="nav-links">
+            <li><a href="#shop">Магазин</a></li>
+            <li><a href="#lookbook">Лукбук</a></li>
+            <li><a href="#about">О нас</a></li>
+            <li><a href="#contact">Контакты</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <p class="hero-tagline japanese">自由 в каждой нити</p>
+            <h1 class="hero-title">
+                Носи свою
+                <span class="japanese">自由</span>
+            </h1>
+            <p class="hero-desc">Свободные силуэты в духе восточноазиатского минимализма. Легко, непринуждённо — это ты.</p>
+            <a href="#shop" class="btn">Смотреть коллекцию</a>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80" alt="Oversized streetwear">
+        </div>
+    </section>
+
+    <section class="section" id="shop">
+        <div class="section-header">
+            <div>
+                <h2 class="section-title">Новинки</h2>
+                <p class="section-subtitle">Весна / Лето 2026</p>
+            </div>
+        </div>
+        <div class="grid">
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&q=80" alt="Oversized Tee">
+                </div>
+                <h3 class="product-name">Oversized Tee</h3>
+                <p class="product-price">$68</p>
+            </div>
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&q=80" alt="Wide Leg Trousers">
+                </div>
+                <h3 class="product-name">Wide Leg Trousers</h3>
+                <p class="product-price">$128</p>
+            </div>
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600&q=80" alt="Flowy Shirt">
+                </div>
+                <h3 class="product-name">Flowy Shirt</h3>
+                <p class="product-price">$88</p>
+            </div>
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&q=80" alt="Oversized Jacket">
+                </div>
+                <h3 class="product-name">Oversized Jacket</h3>
+                <p class="product-price">$198</p>
+            </div>
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=600&q=80" alt="Linen Shirt">
+                </div>
+                <h3 class="product-name">Linen Shirt</h3>
+                <p class="product-price">$78</p>
+            </div>
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1475180098004-ca1d7e461768?w=600&q=80" alt="Pleated Pants">
+                </div>
+                <h3 class="product-name">Pleated Pants</h3>
+                <p class="product-price">$118</p>
+            </div>
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&q=80" alt="Cotton Hoodie">
+                </div>
+                <h3 class="product-name">Cotton Hoodie</h3>
+                <p class="product-price">$98</p>
+            </div>
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=600&q=80" alt="Maxi Dress">
+                </div>
+                <h3 class="product-name">Maxi Dress</h3>
+                <p class="product-price">$148</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="lookbook" id="lookbook">
+        <div class="section-header">
+            <div>
+                <h2 class="section-title">Лукбук</h2>
+                <p class="section-subtitle" style="color: rgba(255,255,255,0.6)">自由 — Свобода</p>
+            </div>
+        </div>
+        <div class="lookbook-grid">
+            <div class="lookbook-item">
+                <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&q=80" alt="Look 1">
+                <span class="lookbook-caption">Слои легкости</span>
+            </div>
+            <div class="lookbook-item">
+                <img src="https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=600&q=80" alt="Look 2">
+                <span class="lookbook-caption">Состояние потока</span>
+            </div>
+            <div class="lookbook-item">
+                <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=600&q=80" alt="Look 3">
+                <span class="lookbook-caption">Утренний ритуал</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <div class="about-image">
+            <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&q=80" alt="Brand story">
+        </div>
+        <div class="about-content">
+            <h2 class="about-title">Свобода в каждой нити</h2>
+            <p class="about-text">
+                ICYOU сочетает минималистичную красоту восточноазиатской моды с современным стритвером. 
+                Мы верим, что одежда должна обнимать тело, а не сковывать его. Наши свободные силуэты, 
+                опущенные плечи и струящиеся ткани созданы для тех, кто ценит лёгкий стиль 
+                и подлинное самовыражение.
+            </p>
+            <div class="values">
+                <div class="value-item">
+                    <h4>自由 Свобода</h4>
+                    <p>Одежда, которая движется вместе с тобой</p>
+                </div>
+                <div class="value-item">
+                    <h4>質 Качество</h4>
+                    <p>Экологичные материалы, этичное производство</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="newsletter" id="contact">
+        <h2 class="newsletter-title">Будь в курсе</h2>
+        <p class="newsletter-desc">Новинки, вдохновение и эксклюзивный доступ.</p>
+        <form class="newsletter-form">
+            <input type="email" class="newsletter-input" placeholder="твой@email.com">
+            <button type="submit" class="btn">Подписаться</button>
+        </form>
+    </section>
+
+    <footer>
+        <div class="footer-brand">
+            <h3>ICYOU</h3>
+            <p>自由 Свобода в каждой нити</p>
+        </div>
+        <div class="footer-links">
+            <div class="footer-col">
+                <h4>Магазин</h4>
+                <ul>
+                    <li><a href="#">Новинки</a></li>
+                    <li><a href="#">Все товары</a></li>
+                    <li><a href="#">Размеры</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>О нас</h4>
+                <ul>
+                    <li><a href="#">Бренд</a></li>
+                    <li><a href="#">Устойчивость</a></li>
+                    <li><a href="#">Карьера</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Помощь</h4>
+                <ul>
+                    <li><a href="#">Контакты</a></li>
+                    <li><a href="#">Доставка</a></li>
+                    <li><a href="#">Возвраты</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
